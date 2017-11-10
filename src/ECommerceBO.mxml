@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   width.EtatConnexion="320" height.EtatConnexion="200"
+					   width.EtatGestion="786" height.EtatGestion="860"
+					   currentState="EtatConnexion" xmlns:serviceetudecasflex4="services.serviceetudecasflex4.*"
+					   >
+	
+	<fx:Script source="GestionApplication.as" />
+	
+ 	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="EtatConnexion"/>
+		<s:State name="EtatGestion"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<s:CallResponder id="ResponderListeCategories"/>
+		<s:CallResponder id="ResponderListeProduits" />
+		<serviceetudecasflex4:ServiceEtudeCasFlex4 id="serviceEtudeCas" 
+												   fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)"
+												   showBusyCursor="true" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			protected function btn_connexion_clickHandler(event:MouseEvent):void
+			{
+				this.currentState="EtatGestion";
+				listingDesCategories();
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Form includeIn="EtatConnexion" x="21" y="47" width="279" height="92">
+		<s:FormItem label="Login :" required="true">
+			<s:TextInput id="txt_login" />
+		</s:FormItem>
+		<s:FormItem label="Mot de passe :" required="true">
+			<s:TextInput id="txt_motdepasse" displayAsPassword="true"/>
+		</s:FormItem>
+	</s:Form>
+	<s:Button id="btn_connexion" click="btn_connexion_clickHandler(event)" 
+			  includeIn="EtatConnexion" x="256" y="147" label="OK" width="48" />
+	<s:Image includeIn="EtatConnexion" x="0" y="0" width="320" height="30" source="images/titre_acceuil.jpg"/>
+	<s:Label includeIn="EtatConnexion" x="21" y="147" text="Erreur" height="21" width="227" color="#FD0303" />
+	
+	
+	
+	<s:Image includeIn="EtatGestion" x="0" y="0" source="images/titre.jpg" width="786" />
+	<s:Panel includeIn="EtatGestion" x="10" y="40" width="250" height="600" title="Catégories" id="panel_categories">
+		<mx:Tree x="10" y="10" width="228" height="550" id="tree_categorie"
+				 itemClick="getProduitsPourCategorie(event)">
+		</mx:Tree>
+	</s:Panel>
+	
+	<mx:TabNavigator includeIn="EtatGestion" x="278" y="40" width="472" height="600" id="Onglets">
+		
+		<s:NavigatorContent label="Liste des produits" width="100%" height="100%">
+			<s:List x="10" y="10" width="450" height="550" itemRenderer="RendererListeProduits" id="list_Produits">
+			</s:List>
+		</s:NavigatorContent>
+		
+		<s:NavigatorContent label="Ajout d'un produit" width="100%" height="100%" id="nav_ajoutproduits">
+			
+			<s:Button x="10" y="10" label="Détecter camera" id="btn_detectioncamera" />
+			<s:Label x="131" y="15" text="Message de detection" height="18" width="356" id="label_messagewebcam"/>
+			
+			<s:Panel x="10" y="40" width="438" height="220" title="image du produit">
+				<s:VideoDisplay id="videoDisplay" width="160" height="130" x="28" y="9" />
+				<s:Button x="26" y="149" label="Prendre la photo" width="157" />
+				<s:Image width="160" height="130" id="image_capture" x="247" y="10" />
+				<s:Line x="217" y="10" height="154" />
+				<s:HSlider x="247" y="153" width="162" id="sld_luminosite" minimum="-150" maximum="150" value="0" />
+			</s:Panel> 
+			
+			<s:Panel x="10" y="285" width="436" height="300" title="Detail du produit" id="panel_descProduit">
+				<s:Form x="9" y="6" width="415" height="269">
+					<s:FormItem label="Code Catégorie :">
+						<s:TextInput id="txt_codeCategorie" width="61" enabled="false"/>
+					</s:FormItem>
+					<s:FormItem label="Catégorie :">
+						<s:TextInput enabled="false" id="txt_categorie" width="265"/>
+					</s:FormItem>
+					<s:FormItem label="Libellé :">
+						<s:TextInput id="txt_libelleproduit" width="266"/>
+					</s:FormItem>
+					<s:FormItem label="Description :">
+						<s:TextArea width="266" height="94" id="txt_description"/>
+					</s:FormItem>
+					<s:FormItem label="Prix :">
+						<s:TextInput width="51" id="txt_prix"/>
+					</s:FormItem>
+					<s:FormItem label="Chemin Image :">
+						<s:TextInput width="266" id="txt_cheminImage"/>
+					</s:FormItem>
+				</s:Form>
+				<s:Button x="327" y="299" label="Ajouter" width="94" id="btn_enregistrerBDD"/>
+			</s:Panel>
+		</s:NavigatorContent>
+	</mx:TabNavigator>
+</s:WindowedApplication>

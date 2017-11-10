@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true"
+				width="448" height="115">
+	
+	<s:Image x="310" y="11" width="121" height="94" id="img_rendererImage"/>
+	<s:Line x="284" y="-1" height="116"/>
+	<s:Label x="167" y="87" id="lb_RendererPrix" color="#1605FC" fontSize="19" textAlign="right"/>
+	<s:Label x="9" y="27" width="267" height="22" fontSize="19" fontWeight="bold" />
+	
+</s:ItemRenderer>
